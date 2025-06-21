@@ -1,6 +1,6 @@
 # MediCare Medication Management App
 
-![{8361A89D-836F-460E-970F-2D8228559D71}](https://github.com/user-attachments/assets/080627f4-e9e1-4f52-bdc9-ae50d20148ee)
+![{DB351378-AAC8-444D-97C8-76C1DEC6BC69}](https://github.com/user-attachments/assets/fe2ea305-051f-44d5-81a5-0004e40af411)
 
 A comprehensive medication management system with role-based access for patients and caretakers, built with React, TypeScript, and Supabase.
 
@@ -86,12 +86,11 @@ The application is deployed on Netlify with the following configuration:
 
 ## Screenshots
 
-![Dashboard](![{D3856C76-7FAF-4B18-A6AC-6D46823898AA}](https://github.com/user-attachments/assets/71f4ce4e-e6cc-4816-bbf1-fb17c30f9a69)
-)
-![Medication List](![{C9972B28-AB71-4928-A6E2-7BFAFBDF4F3F}](https://github.com/user-attachments/assets/98adedc5-34c5-47b1-ad85-e835f0260236)
-)
-![Calendar View](![{87EA931F-8A3C-4C71-8BEB-04F6AA7B66B9}](https://github.com/user-attachments/assets/6df4623e-4b58-4f86-a6ce-c9c92eb91e2b)
-)
+![{CE489BB2-2B4E-410B-B810-59EFD64C8895}](https://github.com/user-attachments/assets/c1235723-1696-4ac7-850f-68f5924d4abc)
+![{54F06CFC-716F-4B7A-98BB-9BF736FEE8BE}](https://github.com/user-attachments/assets/7efbeb79-f9fe-4b22-84a9-76fa64ebe17b)
+![{96A4AA2D-20C9-4B08-BC04-294563D7BABC}](https://github.com/user-attachments/assets/666dfb39-680b-4028-942d-40b633ea63c3)
+![{22735FE0-D48C-4A7F-B779-F19F31349522}](https://github.com/user-attachments/assets/34927bfd-1a30-4635-a4c0-447cd92e113c)
+
 ![{F6D48D5A-9D99-45D7-B8FE-2768439DD810}](https://github.com/user-attachments/assets/7315168e-4d1f-4245-aaee-bcd95ee40660)
 
 ## Future Improvements
