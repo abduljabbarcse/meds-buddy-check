@@ -1,6 +1,6 @@
 # MediCare Medication Management App
 
-![{DB351378-AAC8-444D-97C8-76C1DEC6BC69}](https://github.com/user-attachments/assets/fe2ea305-051f-44d5-81a5-0004e40af411)
+![{AC29610B-3DDC-42A1-9488-6C17BD0CA194}](https://github.com/user-attachments/assets/f70fa39a-b6ae-4a06-9cf1-cbad41732532)
 
 A comprehensive medication management system with role-based access for patients and caretakers, built with React, TypeScript, and Supabase.
 
