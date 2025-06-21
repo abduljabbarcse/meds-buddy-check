@@ -8,6 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Users, Bell, Calendar as CalendarIcon, Mail, AlertTriangle, Check, Clock, Camera } from "lucide-react";
 import NotificationSettings from "./NotificationSettings";
 import { format, subDays, isToday, isBefore, startOfDay } from "date-fns";
+import { MedicationManagement } from "./MedicationManagement";
 
 const CaretakerDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -21,7 +22,7 @@ const CaretakerDashboard = () => {
 
   // Mock data for taken medications (same as in PatientDashboard)
   const takenDates = new Set([
-    "2024-06-10", "2024-06-09", "2024-06-07", "2024-06-06", 
+    "2024-06-10", "2024-06-09", "2024-06-07", "2024-06-06",
     "2024-06-05", "2024-06-04", "2024-06-02", "2024-06-01"
   ]);
 
@@ -66,7 +67,7 @@ const CaretakerDashboard = () => {
             <p className="text-white/90 text-lg">Monitoring {patientName}'s medication adherence</p>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
             <div className="text-2xl font-bold">{adherenceRate}%</div>
@@ -86,7 +87,7 @@ const CaretakerDashboard = () => {
           </div>
         </div>
       </div>
-
+      <MedicationManagement />
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
@@ -125,24 +126,24 @@ const CaretakerDashboard = () => {
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button 
-                  className="w-full justify-start" 
+                <Button
+                  className="w-full justify-start"
                   variant="outline"
                   onClick={handleSendReminderEmail}
                 >
                   <Mail className="w-4 h-4 mr-2" />
                   Send Reminder Email
                 </Button>
-                <Button 
-                  className="w-full justify-start" 
+                <Button
+                  className="w-full justify-start"
                   variant="outline"
                   onClick={handleConfigureNotifications}
                 >
                   <Bell className="w-4 h-4 mr-2" />
                   Configure Notifications
                 </Button>
-                <Button 
-                  className="w-full justify-start" 
+                <Button
+                  className="w-full justify-start"
                   variant="outline"
                   onClick={handleViewCalendar}
                 >
@@ -194,9 +195,8 @@ const CaretakerDashboard = () => {
                 {recentActivity.map((activity, index) => (
                   <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        activity.taken ? 'bg-green-100' : 'bg-red-100'
-                      }`}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${activity.taken ? 'bg-green-100' : 'bg-red-100'
+                        }`}>
                         {activity.taken ? (
                           <Check className="w-5 h-5 text-green-600" />
                         ) : (
@@ -252,7 +252,7 @@ const CaretakerDashboard = () => {
                         const isTaken = takenDates.has(dateStr);
                         const isPast = isBefore(date, startOfDay(new Date()));
                         const isCurrentDay = isToday(date);
-                        
+
                         return (
                           <div className="relative w-full h-full flex items-center justify-center">
                             <span>{date.getDate()}</span>
@@ -269,7 +269,7 @@ const CaretakerDashboard = () => {
                       }
                     }}
                   />
-                  
+
                   <div className="mt-4 space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -290,7 +290,7 @@ const CaretakerDashboard = () => {
                   <h4 className="font-medium mb-4">
                     Details for {format(selectedDate, 'MMMM d, yyyy')}
                   </h4>
-                  
+
                   <div className="space-y-4">
                     {takenDates.has(format(selectedDate, 'yyyy-MM-dd')) ? (
                       <div className="p-4 bg-green-50 rounded-lg border border-green-200">

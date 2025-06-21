@@ -71,7 +71,7 @@ const Index = () => {
               >
                 <Users className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">
-                  {currentRole === "caretaker" ? "Caretaker View" : "Patient View"}
+                  {currentRole === "patient" ? "Caretaker View" : "Patient View"}
                 </span>
               </Button>
             )}
