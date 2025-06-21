@@ -1,63 +1,60 @@
-
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
-import { Badge } from "@/components/ui/badge";
-import { Check, Calendar as CalendarIcon, Image, User } from "lucide-react";
+import { Check, Calendar as CalendarIcon, User, Pill } from "lucide-react";
 import MedicationTracker from "./MedicationTracker";
-import { format, isToday, isBefore, startOfDay } from "date-fns";
+import { format, isToday, isBefore, startOfDay, parseISO } from "date-fns";
+
+import { useMedicationTracking } from "@/hooks/useMedicationTracking";
+import { useAuth } from "@/contexts/AuthContext";
+import { Loader } from "./Loader";
 
 const PatientDashboard = () => {
+  const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [takenDates, setTakenDates] = useState<Set<string>>(new Set());
+  const {
+    medications,
+    isMedicationsLoading,
+    medicationLogs,
+    isLogsLoading,
+    adherence,
+    isAdherenceLoading,
+    logMedicationIntake,
+    isLogging,
+  } = useMedicationTracking(user?.id || "", "patient");
+
+  if (!user) return <div>Loading user data...</div>;
 
   const today = new Date();
   const todayStr = format(today, 'yyyy-MM-dd');
   const selectedDateStr = format(selectedDate, 'yyyy-MM-dd');
   const isTodaySelected = isToday(selectedDate);
-  const isSelectedDateTaken = takenDates.has(selectedDateStr);
 
-  const handleMarkTaken = (date: string, imageFile?: File) => {
-    setTakenDates(prev => new Set(prev).add(date));
-    console.log('Medication marked as taken for:', date);
-    if (imageFile) {
-      console.log('Proof image uploaded:', imageFile.name);
+  const todaysMedications = medications?.filter(med => {
+    try {
+      // Parse the timestamp from the database
+      const medDate = new Date(med.time_of_day);
+      return format(medDate, 'yyyy-MM-dd') === selectedDateStr;
+    } catch (e) {
+      console.error("Error parsing medication time:", med.time_of_day, e);
+      return false;
+    }
+  });
+
+
+  const handleMarkTaken = async (medicationId: string, imageFile?: File) => {
+    try {
+      await logMedicationIntake({ medicationId, imageFile });
+    } catch (error) {
+      console.error("Error logging medication:", error);
     }
   };
 
-  const getStreakCount = () => {
-    let streak = 0;
-    let currentDate = new Date(today);
-    
-    while (takenDates.has(format(currentDate, 'yyyy-MM-dd')) && streak < 30) {
-      streak++;
-      currentDate.setDate(currentDate.getDate() - 1);
-    }
-    
-    return streak;
-  };
 
-  const getDayClassName = (date: Date) => {
-    const dateStr = format(date, 'yyyy-MM-dd');
-    const isPast = isBefore(date, startOfDay(today));
-    const isCurrentDay = isToday(date);
-    const isTaken = takenDates.has(dateStr);
-    
-    let className = "";
-    
-    if (isCurrentDay) {
-      className += " bg-blue-100 border-blue-300 ";
-    }
-    
-    if (isTaken) {
-      className += " bg-green-100 text-green-800 ";
-    } else if (isPast) {
-      className += " bg-red-50 text-red-600 ";
-    }
-    
-    return className;
-  };
+
+  if (isMedicationsLoading || isAdherenceLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="space-y-6">
@@ -68,29 +65,33 @@ const PatientDashboard = () => {
             <User className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}!</h2>
+            <h2 className="text-3xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, {user.email}!</h2>
             <p className="text-white/90 text-lg">Ready to stay on track with your medication?</p>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
-            <div className="text-2xl font-bold">{getStreakCount()}</div>
+            <div className="text-2xl font-bold">{adherence?.streak || 0}</div>
             <div className="text-white/80">Day Streak</div>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
-            <div className="text-2xl font-bold">{takenDates.has(todayStr) ? "✓" : "○"}</div>
+            <div className="text-2xl font-bold">
+              {medicationLogs?.some(log =>
+                format(parseISO(log.taken_at), 'yyyy-MM-dd') === todayStr
+              ) ? "✓" : "○"}
+            </div>
             <div className="text-white/80">Today's Status</div>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
-            <div className="text-2xl font-bold">{Math.round((takenDates.size / 30) * 100)}%</div>
-            <div className="text-white/80">Monthly Rate</div>
+            <div className="text-2xl font-bold">{adherence?.adherenceRate || 0}%</div>
+            <div className="text-white/80">Adherence Rate</div>
           </div>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Today's Medication */}
+        {/* Medication Tracker */}
         <div className="lg:col-span-2">
           <Card className="h-fit">
             <CardHeader>
@@ -100,12 +101,18 @@ const PatientDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <MedicationTracker 
-                date={selectedDateStr}
-                isTaken={isSelectedDateTaken}
-                onMarkTaken={handleMarkTaken}
-                isToday={isTodaySelected}
-              />
+              {isLogsLoading ? (
+                <div>Loading medication logs...</div>
+              ) : (
+                <MedicationTracker
+                  medications={todaysMedications || []}
+                  logs={medicationLogs || []}
+                  date={selectedDateStr}
+                  onMarkTaken={handleMarkTaken}
+                  isToday={isTodaySelected}
+                  isLoading={isLogging}
+                />
+              )}
             </CardContent>
           </Card>
         </div>
@@ -128,10 +135,18 @@ const PatientDashboard = () => {
                 components={{
                   DayContent: ({ date }) => {
                     const dateStr = format(date, 'yyyy-MM-dd');
-                    const isTaken = takenDates.has(dateStr);
                     const isPast = isBefore(date, startOfDay(today));
                     const isCurrentDay = isToday(date);
-                    
+                    const isTaken = medicationLogs?.some(log => {
+                      try {
+                        const logDate = new Date(log.taken_at);
+                        return format(logDate, 'yyyy-MM-dd') === dateStr;
+                      } catch (e) {
+                        console.error("Error parsing log time:", log.taken_at, e);
+                        return false;
+                      }
+                    });
+
                     return (
                       <div className="relative w-full h-full flex items-center justify-center">
                         <span>{date.getDate()}</span>
@@ -148,7 +163,7 @@ const PatientDashboard = () => {
                   }
                 }}
               />
-              
+
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>

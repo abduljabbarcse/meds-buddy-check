@@ -17,3 +17,11 @@ export type AuthContextType = {
     ) => Promise<{ error: string | null }>;
     signOut: () => Promise<void>;
 };
+
+export interface MedicationLog {
+  id: string;
+  medication_id: string;
+  user_id: string;
+  taken_at: string;
+  proof_image_url?: string;
+}

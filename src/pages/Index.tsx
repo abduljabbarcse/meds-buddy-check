@@ -62,20 +62,7 @@ const Index = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            {role === "caretaker" && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={switchUserType}
-                className="flex items-center gap-2 hover:bg-accent transition-colors"
-              >
-                <Users className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">
-                  {currentRole === "patient" ? "Caretaker View" : "Patient View"}
-                </span>
-              </Button>
-            )}
-
+           
             <div className="flex items-center gap-3">
               <div className="hidden md:flex flex-col items-end">
                 <p className="text-sm font-medium text-foreground">
