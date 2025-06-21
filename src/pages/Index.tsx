@@ -3,22 +3,15 @@ import { useState } from "react";
 import PatientDashboard from "@/components/PatientDashboard";
 import CaretakerDashboard from "@/components/CaretakerDashboard";
 import { Button } from "@/components/ui/button";
-import { Users, LogOut, Loader2 } from "lucide-react";
+import { LogOut, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Index = () => {
   const { role, signOut, user } = useAuth();
-  const [currentRole, setCurrentRole] = useState<"patient" | "caretaker">(
-    role || "patient"
-  );
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const navigate = useNavigate();
 
-  const switchUserType = () => {
-    const newType = currentRole === "patient" ? "caretaker" : "patient";
-    setCurrentRole(newType);
-  };
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -55,21 +48,21 @@ const Index = () => {
                   MediCare Companion
                 </h1>
                 <p className="text-xs text-muted-foreground">
-                  {currentRole === "patient" ? "Patient Portal" : "Caretaker Dashboard"}
+                  {role === "patient" ? "Patient Portal" : "Caretaker Dashboard"}
                 </p>
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-           
+
             <div className="flex items-center gap-3">
               <div className="hidden md:flex flex-col items-end">
                 <p className="text-sm font-medium text-foreground">
                   {user?.email?.split("@")[0] || "User"}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {currentRole === "patient" ? "Patient" : "Caretaker"}
+                  {role === "patient" ? "Patient" : "Caretaker"}
                 </p>
               </div>
 
@@ -99,7 +92,7 @@ const Index = () => {
       </header>
 
       <main className="max-w-7xl mx-auto p-6">
-        {currentRole === "patient" ? (
+        {role === "patient" ? (
           <PatientDashboard />
         ) : (
           <CaretakerDashboard />

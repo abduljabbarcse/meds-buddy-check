@@ -42,7 +42,7 @@ export const MedicationForm = ({
       name: "",
       dosage: "",
       frequency: "daily",
-      time_of_day: "08:00", // Default to 8:00 AM
+      time_of_day: "08:00", 
       patient_id: "",
       ...defaultValues,
     },

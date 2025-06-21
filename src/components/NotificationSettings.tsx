@@ -7,16 +7,16 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Bell } from "lucide-react";
+
 const NotificationSettings = () => {
   const [settings, setSettings] = useState({
     emailNotifications: true,
     emailAddress: "caretaker@example.com",
     reminderTime: "20:00",
-    // 8 PM
     pushNotifications: true,
     criticalAlerts: true,
     missedMedNotification: true,
-    missedMedDelay: "2" // hours
+    missedMedDelay: "2" 
   });
   const handleSettingChange = (key: string, value: any) => {
     setSettings(prev => ({

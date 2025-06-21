@@ -35,7 +35,6 @@ export const MedicationManagement = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingMedication, setEditingMedication] = useState<Medication | null>(null);
     const { data: patients } = usePatients();
-    console.log(patients)
     const {
         medications,
         isLoading,

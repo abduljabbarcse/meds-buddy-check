@@ -3,27 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Image as ImageIcon, Camera, Clock, Pill } from "lucide-react";
-import { format, parseISO,  isBefore } from "date-fns";
-import { Medication } from "@/schema/medication";
-import { MedicationLog } from "@/lib/types";
+import { format, parseISO, isBefore } from "date-fns";
+import { MedicationTrackerProps } from "@/lib/types";
 
-interface MedicationTrackerProps {
-  medications: Medication[];
-  logs: MedicationLog[];
-  date: string;
-  onMarkTaken: (medicationId: string, imageFile?: File) => Promise<void>;
-  isToday: boolean;
-  isLoading: boolean;
-}
 
-const MedicationTracker = ({
-  medications,
-  logs,
-  date,
-  onMarkTaken,
-  isToday,
-  isLoading,
-}: MedicationTrackerProps) => {
+const MedicationTracker = ({ medications, logs, date, onMarkTaken, isToday, isLoading }: MedicationTrackerProps) => {
   const [selectedMedication, setSelectedMedication] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -54,10 +38,10 @@ const MedicationTracker = ({
   const getMedicationStatus = (medicationId: string) => {
     const medication = medications.find(m => m.id === medicationId);
     if (!medication) return "unknown";
-    
+
     const isTaken = logs.some(log => log.medication_id === medicationId);
     if (isTaken) return "taken";
-    
+
     const isMissed = isBefore(parseISO(medication.time_of_day), new Date());
     return isMissed ? "missed" : "pending";
   };
@@ -70,8 +54,7 @@ const MedicationTracker = ({
     );
   }
 
-  // Check if all medications are taken for this date
-  const allTaken = medications.every(med => 
+  const allTaken = medications.every(med =>
     logs.some(log => log.medication_id === med.id)
   );
 
@@ -91,7 +74,7 @@ const MedicationTracker = ({
             </p>
           </div>
         </div>
-        
+
         {medications.map(med => (
           <Card key={med.id} className="border-green-200 bg-green-50/50">
             <CardContent className="flex items-center justify-between p-4">
@@ -124,14 +107,12 @@ const MedicationTracker = ({
             <Card className="hover:shadow-md transition-shadow">
               <CardContent className="flex items-center justify-between p-4">
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    status === "taken" ? "bg-green-100" : 
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${status === "taken" ? "bg-green-100" :
                     status === "missed" ? "bg-red-100" : "bg-blue-100"
-                  }`}>
-                    <Pill className={`w-5 h-5 ${
-                      status === "taken" ? "text-green-600" : 
+                    }`}>
+                    <Pill className={`w-5 h-5 ${status === "taken" ? "text-green-600" :
                       status === "missed" ? "text-red-600" : "text-blue-600"
-                    }`} />
+                      }`} />
                   </div>
                   <div>
                     <h4 className="font-medium">{med.name}</h4>
@@ -166,7 +147,7 @@ const MedicationTracker = ({
                       <p className="text-sm text-muted-foreground mb-4">
                         Take a photo of your medication as confirmation
                       </p>
-                      
+
                       <input
                         type="file"
                         accept="image/*"
@@ -174,7 +155,7 @@ const MedicationTracker = ({
                         ref={fileInputRef}
                         className="hidden"
                       />
-                      
+
                       <Button
                         variant="outline"
                         onClick={() => {
@@ -186,7 +167,7 @@ const MedicationTracker = ({
                         <Camera className="w-4 h-4 mr-2" />
                         {selectedImage && selectedMedication === med.id ? "Change Photo" : "Take Photo"}
                       </Button>
-                      
+
                       {imagePreview && selectedMedication === med.id && (
                         <div className="mt-4">
                           <img

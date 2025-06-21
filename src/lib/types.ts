@@ -1,3 +1,4 @@
+import { Medication } from "@/schema/medication";
 import { User, Session } from "@supabase/supabase-js";
 
 export type AuthContextType = {
@@ -24,4 +25,12 @@ export interface MedicationLog {
   user_id: string;
   taken_at: string;
   proof_image_url?: string;
+}
+export interface MedicationTrackerProps {
+  medications: Medication[];
+  logs: MedicationLog[];
+  date: string;
+  onMarkTaken: (medicationId: string, imageFile?: File) => Promise<void>;
+  isToday: boolean;
+  isLoading: boolean;
 }

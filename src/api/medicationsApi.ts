@@ -30,7 +30,6 @@ export const fetchMedications = async (userId: string): Promise<Medication[]> =>
     if (error) throw error;
     return data.map(med => ({
         ...med,
-        // Convert timestamp back to time string for display
         time_of_day: new Date(med.time_of_day).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }));
 };

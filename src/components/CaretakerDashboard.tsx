@@ -7,20 +7,18 @@ import { Progress } from "@/components/ui/progress";
 import { Calendar } from "@/components/ui/calendar";
 import { Users, Bell, Calendar as CalendarIcon, Mail, AlertTriangle, Check, Clock, Camera } from "lucide-react";
 import NotificationSettings from "./NotificationSettings";
-import { format, subDays, isToday, isBefore, startOfDay } from "date-fns";
+import { format, isToday, isBefore, startOfDay } from "date-fns";
 import { MedicationManagement } from "./MedicationManagement";
 
 const CaretakerDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  // Mock data for demonstration
   const patientName = "Eleanor Thompson";
   const adherenceRate = 85;
   const currentStreak = 5;
   const missedDoses = 3;
 
-  // Mock data for taken medications (same as in PatientDashboard)
   const takenDates = new Set([
     "2024-06-10", "2024-06-09", "2024-06-07", "2024-06-06",
     "2024-06-05", "2024-06-04", "2024-06-02", "2024-06-01"

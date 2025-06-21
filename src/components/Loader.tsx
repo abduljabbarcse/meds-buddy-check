@@ -1,3 +1,4 @@
+
 export const Loader = () => (
   <div className="min-h-screen flex items-center justify-center bg-white">
     <div className="flex flex-col items-center gap-4">

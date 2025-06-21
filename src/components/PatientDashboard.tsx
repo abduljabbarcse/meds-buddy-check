@@ -4,7 +4,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Check, Calendar as CalendarIcon, User, Pill } from "lucide-react";
 import MedicationTracker from "./MedicationTracker";
 import { format, isToday, isBefore, startOfDay, parseISO } from "date-fns";
-
 import { useMedicationTracking } from "@/hooks/useMedicationTracking";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader } from "./Loader";
@@ -23,7 +22,7 @@ const PatientDashboard = () => {
     isLogging,
   } = useMedicationTracking(user?.id || "", "patient");
 
-  if (!user) return <div>Loading user data...</div>;
+  if (!user) return <Loader />;
 
   const today = new Date();
   const todayStr = format(today, 'yyyy-MM-dd');
@@ -32,7 +31,6 @@ const PatientDashboard = () => {
 
   const todaysMedications = medications?.filter(med => {
     try {
-      // Parse the timestamp from the database
       const medDate = new Date(med.time_of_day);
       return format(medDate, 'yyyy-MM-dd') === selectedDateStr;
     } catch (e) {
@@ -65,7 +63,7 @@ const PatientDashboard = () => {
             <User className="w-8 h-8" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, {user.email}!</h2>
+            <h2 className="text-3xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 18 ? 'Afternoon' : 'Evening'}, {user.user_metadata?.name ?? ""}!</h2>
             <p className="text-white/90 text-lg">Ready to stay on track with your medication?</p>
           </div>
         </div>
@@ -93,7 +91,7 @@ const PatientDashboard = () => {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Medication Tracker */}
         <div className="lg:col-span-2">
-          <Card className="h-fit">
+          <Card className="h-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl">
                 <CalendarIcon className="w-6 h-6 text-blue-600" />
