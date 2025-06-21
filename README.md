@@ -2,11 +2,12 @@
 
 ![{AC29610B-3DDC-42A1-9488-6C17BD0CA194}](https://github.com/user-attachments/assets/f70fa39a-b6ae-4a06-9cf1-cbad41732532)
 
+
 A comprehensive medication management system with role-based access for patients and caretakers, built with React, TypeScript, and Supabase.
 
 ## Live Demo
 
-🔗 [View Live Demo on Netlify]([https://your-netlify-site-url.netlify.app](https://meds-buddy-check-task.netlify.app/))
+🔗 **[Live Demo on Netlify](https://meds-buddy-check-task.netlify.app/)**
 
 ## Features Implemented
 
