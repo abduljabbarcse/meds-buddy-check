@@ -1,77 +1,103 @@
-# MediCare App - 4-6 Hour Assessment
+# MediCare Medication Management App
 
-## Live Demo (UI only): https://meds-buddy-check.lovable.app/
-
-## Current State of the codebase
-
-This is a React medication management app with dual user roles (patients/caretakers). Currently features:
-
-- Role-based dashboard system for each user account with runtime switching (for simplcity)
-
-- UI for medication tracking with calendar visualization
-
-- Mock data for streaks, adherence rates, and medication logs
-
-- Photo upload interface for medication proof
-
-- Notification settings UI (non-functional)
-
-- All data is stored in local state (no persistence)
+![{AC29610B-3DDC-42A1-9488-6C17BD0CA194}](https://github.com/user-attachments/assets/f70fa39a-b6ae-4a06-9cf1-cbad41732532)
 
 
-## Core Implementation Tasks
+A comprehensive medication management system with role-based access for patients and caretakers, built with React, TypeScript, and Supabase.
 
-### Phase 1 (Required - 4 hours):
-- Supabase authentication setup
-- Basic CRUD for adding medications
-- Basic CRUD for marking medication taken for the day
-- Connect one dashboard to real data
+## Live Demo
 
-### Phase 2 (Optional - 2 hours):
-- Caretaker-patient real time updates
-- Basic adherence tracking
+🔗 **[Live Demo on Netlify](https://meds-buddy-check-task.netlify.app/)**
 
-### Phase 3 (Bonus):
-- File uploads
+## Features Implemented
 
-**Provided:**
-- UI components and styles
+### Core Features (Completed)
+- **Authentication System**
+  - Supabase email/password authentication
+  - Role-based access (patient/caretaker)
+  - Session management
+  - Protected routes
 
-## Required Features:
-1. User login/signup with Supabase Auth
-2. Add medications (name, dosage, frequency)
-3. View medication list
-4. Mark medication as taken today
-5. Simple adherence percentage display
+- **Medication Management**
+  - Full CRUD operations for medications
+  - Patient-specific medication tracking
+  - Time-based medication scheduling
+  - Calendar visualization
 
-## Technical Requirements:
-- Use provided React + TypeScript template
-- Integrate Supabase for auth and database
-- Use React Query for data fetching
-- Implement error handling
-- Clean, readable code
+- **Tracking & Analytics**
+  - Medication intake logging
+  - Adherence rate calculation
+  - Streak tracking
+  - Daily status indicators
 
-## Other Requirements:
-- Use Git with meaningful commits
-- Implement proper form validation
-- Handle loading and error states consistently
-- Write at least 2-3 meaningful tests using vitest
-- Include a README with setup instructions
+- **Media Uploads**
+  - Proof image uploads for medication intake
+  - Supabase storage integration
 
-## Technical Challenges:
+### Technical Highlights
+- React Query for data fetching with optimistic updates
+- TypeScript end-to-end type safety
+- Form validation with react-hook-form
+- Responsive UI with Tailwind CSS
+- Real-time updates using Supabase subscriptions
 
-**Include:**
-- Optimistic updates using react query
-- Proper TypeScript generics usage
+## Setup Instructions
 
-## Deployment Bonus:
-Deploy to Vercel/Netlify
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/medicare-app.git
+   cd medicare-app
+   ```
 
-## We will evaluate:
-- Code organization and architecture decisions
-- Error handling and edge cases
-- TypeScript usage (proper typing, no `any`)
-- Component composition and reusability
-- State management approach
-- Performance considerations (unnecessary re-renders)
-- Security awareness (input sanitization)
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env` file based on `.env.example` with your Supabase credentials
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Run tests**
+   ```bash
+   npm test
+   ```
+
+## Deployment
+
+The application is deployed on Netlify with the following configuration:
+- Automatic deploys from main branch
+- Environment variables set in Netlify dashboard
+- Supabase functions enabled
+
+## Technical Stack
+
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS, ShadCN UI components
+- **State Management**: React Query, Zustand
+- **Authentication**: Supabase Auth
+- **Database**: Supabase PostgreSQL
+- **Storage**: Supabase Storage
+- **Testing**: Vitest, React Testing Library
+- **Deployment**: Netlify
+
+## Screenshots
+
+![{CE489BB2-2B4E-410B-B810-59EFD64C8895}](https://github.com/user-attachments/assets/c1235723-1696-4ac7-850f-68f5924d4abc)
+![{54F06CFC-716F-4B7A-98BB-9BF736FEE8BE}](https://github.com/user-attachments/assets/7efbeb79-f9fe-4b22-84a9-76fa64ebe17b)
+![{96A4AA2D-20C9-4B08-BC04-294563D7BABC}](https://github.com/user-attachments/assets/666dfb39-680b-4028-942d-40b633ea63c3)
+![{22735FE0-D48C-4A7F-B779-F19F31349522}](https://github.com/user-attachments/assets/34927bfd-1a30-4635-a4c0-447cd92e113c)
+
+![{F6D48D5A-9D99-45D7-B8FE-2768439DD810}](https://github.com/user-attachments/assets/7315168e-4d1f-4245-aaee-bcd95ee40660)
+
+## Future Improvements
+
+- Push notifications for medication reminders
+- Caretaker-patient messaging system
+- Advanced analytics dashboard
+- Medication refill reminders
+```
