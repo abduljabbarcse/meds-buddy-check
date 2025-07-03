@@ -55,10 +55,11 @@ export const updateMedication = async (medication: Medication) => {
 };
 
 export const deleteMedication = async (id: string) => {
-    const { error } = await supabase
+    const { data, error } = await supabase
         .from("medications")
         .delete()
         .eq("id", id);
+    console.log(data)
 
     if (error) {
         throw new Error(error.message);
